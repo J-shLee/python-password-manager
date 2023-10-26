@@ -47,4 +47,23 @@ class TestInsertSecretsTest():
 class TestListSecrets():
     def test_returns_correct_message_when_no_secrets_stored(self, caplog):
         with caplog.at_level(logging.INFO):
+            list_secrets()
 
+            assert ('There are no secrets' in caplog.text)
+
+    def test_returns_correct_message_when_no_secrets_stored(self, caplog):
+        with caplog.at_level(logging.INFO):
+            insert_secret('a', 'a', 'a')
+            list_secrets()
+
+            assert ("1 secret(s) available: \n['a']" in caplog.text)
+
+    def test_raises_client_error(self, caplog):
+        pass
+    # """captures as client error"""
+    # with caplog.at_level(logging.INFO):
+
+    #     insert_secret('secretid', 'userid', 'password')
+    #     insert_secret('secretid', 'userid', 'password')
+    
+    #     assert ('A resource with the ID you requested already exists.' in caplog.text)

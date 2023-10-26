@@ -1,0 +1,2 @@
+User ID = xxx 
+Password = ccc

@@ -1,4 +1,4 @@
-from src.password_manager import insert_secret, get_client, list_secrets
+from src.password_manager import insert_secret, get_client, list_secrets, delete_secret
 import moto 
 from moto import mock_secretsmanager
 import os
@@ -67,3 +67,22 @@ class TestListSecrets():
     #     insert_secret('secretid', 'userid', 'password')
     
     #     assert ('A resource with the ID you requested already exists.' in caplog.text)
+
+
+@mock_secretsmanager
+class TestDeleteSecrets():
+    def test_returns_correct_message_when_secret_successfully_deleted(self, caplog):
+        with caplog.at_level(logging.INFO):
+            insert_secret('a', 'a', 'a')
+            delete_secret('a')
+
+            assert ('Secret Deleted: a' in caplog.text)
+
+    # def test_returns_correct_message_when_no_secrets_stored(self, caplog):
+    #     with caplog.at_level(logging.INFO):
+    #         insert_secret('a', 'a', 'a')
+    #         list_secrets()
+
+    #         assert ("1 secret(s) available: \n['a']" in caplog.text)
+
+    # def test_raises_client_error(self, caplog):

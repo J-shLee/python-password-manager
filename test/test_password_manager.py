@@ -117,7 +117,7 @@ class TestRetrieveSecret:
         retrieve_secret("a")
         directory = os.getcwd()
 
-        secret_txt = open(f"{directory}/a.txt", "r")
+        secret_txt = open(f"{directory}/secrets/a.txt", "r")
         lines = secret_txt.readlines()
         assert lines[0] == "User ID = a \n"
         assert lines[1] == "Password = a"

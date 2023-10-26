@@ -5,11 +5,14 @@ import logging
 import os
 
 logging.basicConfig()
-logger = logging.getLogger("Password_manager")
+logger = logging.getLogger(" Password_manager")
 logger.setLevel(logging.INFO)
 
 
 def handler(user_input=None):
+    directory = os.getcwd()
+    name = directory.split("/")[2]
+
     valid_inputs = {
         "e": insert_secret,
         "r": retrieve_secret,
@@ -23,7 +26,7 @@ def handler(user_input=None):
         ).lower()
 
     if user_input == "x":
-        logger.info("Thank you. Goodbye")
+        logger.info(f" Thank you, {name}. Goodbye")
         return
     elif user_input in valid_inputs:
         function = valid_inputs[user_input]
@@ -43,13 +46,13 @@ def insert_secret(secret_identifier=None, user_id=None, password=None):
         client = get_client()
 
         if secret_identifier == None:
-            secret_identifier = input("What name would you like to give this secret? ")
+            secret_identifier = input(" What name would you like to give this secret? ")
 
         if user_id == None:
-            user_id = input("What is the username you'd like to save? ")
+            user_id = input(" What is the username you'd like to save? ")
 
         if password == None:
-            password = input("What is the password you'd like to save? ")
+            password = input(" What is the password you'd like to save? ")
 
         json_upload = {"user_id": user_id, "password": password}
 
@@ -59,13 +62,18 @@ def insert_secret(secret_identifier=None, user_id=None, password=None):
 
         if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
             logger.info("Secret Saved")
-            return handler()
+
     except ClientError as ce:
-        logger.error(ce.response["Error"]["Message"])
+        logger.error(f' {ce.response["Error"]["Message"]}')
     except Exception as e:
         logger.error(e)
-    # finally:
-    #     return handler()
+    finally:
+        user_input = input(" Would you like to do something else? y/n: ")
+
+        if user_input.lower() == "y":
+            return handler()
+        else:
+            return handler("x")
 
 
 def list_secrets():
@@ -74,17 +82,20 @@ def list_secrets():
         response = client.list_secrets()
 
         if len(response["SecretList"]) == 0:
-            logger.info("There are no secrets")
-            return handler()
+            logger.info(" There are no secrets")
         else:
             secrets = [secret["Name"] for secret in response["SecretList"]]
-            logger.info(f"{len(secrets)} secret(s) available: \n{secrets}")
-            return handler()
+            logger.info(f" {len(secrets)} secret(s) available: \n{secrets}")
+
     except ClientError as ce:
         logger.error(ce.response["Error"]["Message"])
-        return handler()
-    # finally:
-    #     return handler()
+    finally:
+        user_input = input(" Would you like to do something else? y/n: ")
+
+        if user_input.lower() == "y":
+            return handler()
+        else:
+            return handler("x")
 
 
 def delete_secret(secret_identifier=None):
@@ -93,18 +104,23 @@ def delete_secret(secret_identifier=None):
 
         if secret_identifier == None:
             secret_identifier = input(
-                "What's the name of the secret you would like to delete? "
+                " What's the name of the secret you would like to delete? "
             )
 
         response = client.delete_secret(SecretId=secret_identifier)
 
         if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
             logger.info(f"Secret Deleted: {response['Name']}")
-            # return handler()
+
     except ClientError as ce:
         logger.error(ce.response["Error"]["Message"])
-    # finally:
-    #     return handler()
+    finally:
+        user_input = input(" Would you like to do something else? y/n: ")
+
+        if user_input.lower() == "y":
+            return handler()
+        else:
+            return handler("x")
 
 
 def retrieve_secret(secret_identifier=None):
@@ -113,7 +129,7 @@ def retrieve_secret(secret_identifier=None):
 
         if secret_identifier == None:
             secret_identifier = input(
-                "What is the name of the secret you would like to retrieve? "
+                " What is the name of the secret you would like to retrieve? "
             )
 
         response = client.get_secret_value(SecretId=secret_identifier)
@@ -131,10 +147,17 @@ def retrieve_secret(secret_identifier=None):
         )
         secret_txt.close()
 
-        logger.info(f"Secrets stored in local file {secret_identifier}.txt")
-        return handler()
+        logger.info(f" Secrets stored in local file {secret_identifier}.txt")
+
     except ClientError as ce:
         logger.error(ce.response["Error"]["Message"])
+    finally:
+        user_input = input(" Would you like to do something else? y/n: ")
+
+        if user_input.lower() == "y":
+            return handler()
+        else:
+            return handler("x")
 
 
 handler()

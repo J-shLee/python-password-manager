@@ -61,3 +61,23 @@ def list_secrets():
         logger.error(ce)
     # finally:
     #     return handler()
+
+
+def delete_secret(secret_identifier=None):
+    try:
+        client = get_client()
+
+        if secret_identifier == None:
+            secret_identifier = input('What\'s the name of the secret you would like to delete?')
+
+        response = client.delete_secret(
+            SecretId=secret_identifier
+        )
+
+        if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+            logger.info(f"Secret Deleted: {response['Name']}")
+            # return handler()
+    except ClientError as ce:
+        logger.error(ce)
+    # finally:
+    #     return handler()

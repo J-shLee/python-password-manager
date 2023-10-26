@@ -1,4 +1,4 @@
-from src.password_manager import insert_secret, get_client, list_secrets
+from src.password_manager import insert_secret, get_client, list_secrets, delete_secret
 import moto 
 from moto import mock_secretsmanager
 import os
@@ -6,6 +6,7 @@ import pytest
 import boto3
 import json
 import logging
+from unittest import mock, patch
 
 logger = logging.getLogger('MyLogger')
 logger.setLevel(logging.INFO)
@@ -58,12 +59,26 @@ class TestListSecrets():
 
             assert ("1 secret(s) available: \n['a']" in caplog.text)
 
-    def test_raises_client_error(self, caplog):
-        pass
-    # """captures as client error"""
-    # with caplog.at_level(logging.INFO):
+    # def test_raises_client_error(self, caplog):
+    #     with patch('../src.password_manager.get_client', return_value=None):
 
-    #     insert_secret('secretid', 'userid', 'password')
-    #     insert_secret('secretid', 'userid', 'password')
-    
-    #     assert ('A resource with the ID you requested already exists.' in caplog.text)
+    #         with caplog.at_level(logging.INFO):
+
+    #             list_secrets()
+
+@mock_secretsmanager
+class TestDeleteSecrets():
+    def test_returns_correct_message_when_secret_successfully_deleted(self, caplog):
+        with caplog.at_level(logging.INFO):
+            insert_secret('a', 'a', 'a')
+            delete_secret('a')
+
+            assert ('Secret Deleted: a' in caplog.text)
+
+    def test_captures_client_error_when_secret_does_not_exist(self, caplog):
+        with caplog.at_level(logging.INFO):
+            delete_secret('a')
+
+            assert ("ResourceNotFound" in caplog.text)
+
+    # def test_raises_client_error(self, caplog):

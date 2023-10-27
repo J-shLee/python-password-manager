@@ -1,10 +1,10 @@
 from src.password_manager import (
     insert_secret,
-    get_client,
     list_secrets,
     delete_secret,
     retrieve_secret,
     handler,
+    get_username
 )
 import moto
 from moto import mock_secretsmanager
@@ -132,26 +132,27 @@ class TestRetrieveSecret:
 class TestHandler:
     def test_handler_invokes_insert_secret_with_user_input_e(self):
         with patch("src.password_manager.insert_secret", return_value=True) as mock:
-            assert handler("e") == True
+            handler("e")
             assert mock.call_count == 1
 
     def test_handler_invokes_list_secrets_with_user_input_l(self):
         with patch("src.password_manager.list_secrets", return_value=True) as mock:
-            assert handler("l") == True
+            handler("l")
             assert mock.call_count == 1
 
     def test_handler_invokes_delete_secrets_with_user_input_d(self):
         with patch("src.password_manager.delete_secret", return_value=True) as mock:
-            assert handler("d") == True
+            handler("d")
             assert mock.call_count == 1
 
-    def test_handler_invokes_delete_secrets_with_user_input_r(self):
+    def test_handler_invokes_retrieve_secrets_with_user_input_r(self):
         with patch("src.password_manager.retrieve_secret", return_value=True) as mock:
-            assert handler("r") == True
+            handler("r")
             assert mock.call_count == 1
 
     def test_handler_logs_correct_message_on_exit(self, caplog):
         with caplog.at_level(logging.INFO):
+            name = get_username()
             handler("x")
 
-            assert "Thank you. Goodbye" in caplog.text
+            assert f"Thank you, {name}. Goodbye" in caplog.text

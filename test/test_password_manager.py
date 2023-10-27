@@ -4,6 +4,7 @@ from src.password_manager import (
     delete_secret,
     retrieve_secret,
     handler,
+    get_username
 )
 import moto
 from moto import mock_secretsmanager
@@ -151,6 +152,7 @@ class TestHandler:
 
     def test_handler_logs_correct_message_on_exit(self, caplog):
         with caplog.at_level(logging.INFO):
+            name = get_username()
             handler("x")
 
-            assert "Thank you, joshlee. Goodbye" in caplog.text
+            assert f"Thank you, {name}. Goodbye" in caplog.text

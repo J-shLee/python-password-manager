@@ -1,4 +1,4 @@
-name: 'Test and Delopy'
+name: 'Test & Checks'
 on:
   push:
     branches:

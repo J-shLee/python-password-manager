@@ -1,6 +1,6 @@
 import logging
+import boto3
 from botocore.exceptions import ClientError
-from util_get_client import get_client
 
 logging.basicConfig()
 logger = logging.getLogger(" Password_manager")
@@ -9,9 +9,9 @@ logger.setLevel(logging.INFO)
 
 def delete_secret(secret_identifier=None):
     try:
-        client = get_client()
+        client = boto3.client("secretsmanager")
 
-        if secret_identifier == None:
+        if secret_identifier is None:
             secret_identifier = input(
                 " What's the name of the secret you would like to delete? "
             )

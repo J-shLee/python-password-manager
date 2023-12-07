@@ -1,6 +1,6 @@
 import logging
 from botocore.exceptions import ClientError
-from util_get_client import get_client
+import boto3
 
 logging.basicConfig()
 logger = logging.getLogger(" Password_manager")
@@ -9,7 +9,7 @@ logger.setLevel(logging.INFO)
 
 def list_secrets():
     try:
-        client = get_client()
+        client = boto3.client("secretsmanager")
         response = client.list_secrets()
 
         if len(response["SecretList"]) == 0:

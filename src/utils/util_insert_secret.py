@@ -1,7 +1,7 @@
 import logging
 from botocore.exceptions import ClientError
-from util_get_client import get_client
 import json
+import boto3
 
 logging.basicConfig()
 logger = logging.getLogger(" Password_manager")
@@ -10,15 +10,17 @@ logger.setLevel(logging.INFO)
 
 def insert_secret(secret_identifier=None, user_id=None, password=None):
     try:
-        client = get_client()
+        client = boto3.client("secretsmanager")
 
-        if secret_identifier == None:
-            secret_identifier = input(" What name would you like to give this secret? ")
+        if secret_identifier is None:
+            secret_identifier = input(
+                " What would you like to call this secret? "
+            )  # noqa E501
 
-        if user_id == None:
+        if user_id is None:
             user_id = input(" What is the username you'd like to save? ")
 
-        if password == None:
+        if password is None:
             password = input(" What is the password you'd like to save? ")
 
         json_upload = {"user_id": user_id, "password": password}

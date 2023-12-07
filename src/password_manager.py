@@ -1,11 +1,10 @@
-from util_list_secrets import list_secrets
-from util_delete_secret import delete_secret
-from util_retrieve_secret import retrieve_secret
-from util_insert_secret import insert_secret
-from util_get_username import get_username
+from src.utils.util_list_secrets import list_secrets
+from src.utils.util_delete_secret import delete_secret
+from src.utils.util_retrieve_secret import retrieve_secret
+from src.utils.util_insert_secret import insert_secret
+from src.utils.util_get_username import get_username
 
 import logging
-import os
 
 logging.basicConfig()
 logger = logging.getLogger(" Password_manager")
@@ -22,13 +21,12 @@ def handler(user_input=None):
             "l": list_secrets,
         }
 
-        if user_input == None:
+        if user_input is None:
             user_input = input(
-                "Please specify [e]ntry, [r]etrieval, [d]eletion, [l]isting or e[x]it: "
+                "Please specify [e]ntry, [r]etrieval, [d]eletion, [l]isting or e[x]it: "  # noqa E501
             ).lower()
 
         if user_input == "x":
-            # logger.info(f" Thank you, {name}. Goodbye")
             return
         elif user_input in valid_inputs:
             function = valid_inputs[user_input]
@@ -50,4 +48,5 @@ def handler(user_input=None):
             return
 
 
-handler()
+if __name__ == "__main__":
+    handler()

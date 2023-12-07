@@ -1,4 +1,5 @@
-import os 
+import os
+
 
 def get_username():
     directory = os.getcwd()

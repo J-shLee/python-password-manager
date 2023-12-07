@@ -1,6 +1,6 @@
 import logging
 from botocore.exceptions import ClientError
-from src.util_get_client import get_client
+from util_get_client import get_client
 import json
 
 logging.basicConfig()

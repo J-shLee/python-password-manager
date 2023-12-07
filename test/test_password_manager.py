@@ -4,16 +4,13 @@ from src.password_manager import (
     delete_secret,
     retrieve_secret,
     handler,
-    get_username
+    get_username,
 )
-import moto
+
 from moto import mock_secretsmanager
 import os
 import pytest
-import boto3
-import json
 import logging
-from unittest import mock
 from unittest.mock import patch
 
 logger = logging.getLogger("MyLogger")

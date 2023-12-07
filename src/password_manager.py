@@ -1,8 +1,8 @@
-from src.util_list_secrets import list_secrets
-from src.util_delete_secret import delete_secret
-from src.util_retrieve_secret import retrieve_secret
-from src.util_insert_secret import insert_secret
-from src.util_get_username import get_username
+from util_list_secrets import list_secrets
+from util_delete_secret import delete_secret
+from util_retrieve_secret import retrieve_secret
+from util_insert_secret import insert_secret
+from util_get_username import get_username
 
 import logging
 import os

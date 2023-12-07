@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 
 def retrieve_secret(secret_identifier=None):
     try:
-        client = boto3.client("secretsmanager")
+        client = boto3.client("secretsmanager", region_name="eu-west-2")
 
         if secret_identifier is None:
             secret_identifier = input(

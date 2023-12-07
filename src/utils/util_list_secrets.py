@@ -9,7 +9,7 @@ logger.setLevel(logging.INFO)
 
 def list_secrets():
     try:
-        client = boto3.client("secretsmanager")
+        client = boto3.client("secretsmanager", region_name="eu-west-2")
         response = client.list_secrets()
 
         if len(response["SecretList"]) == 0:

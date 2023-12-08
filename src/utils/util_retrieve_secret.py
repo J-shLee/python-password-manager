@@ -10,6 +10,18 @@ logger.setLevel(logging.INFO)
 
 
 def retrieve_secret(secret_identifier=None):
+    """
+    this function retrieves a secret stored in SecretsManager
+
+    Parameters
+    ----------
+        secret_identifier: user input of the secret they want to retrieve
+
+    Returns
+    ----------
+        returns nothing, displays terminal message if secret retrieved, saves
+        secret to local directory ../secrets/
+    """
     try:
         client = boto3.client("secretsmanager", region_name="eu-west-2")
 
@@ -27,11 +39,10 @@ def retrieve_secret(secret_identifier=None):
         if not os.path.isdir(f"{directory}/secrets"):
             os.mkdir(f"{directory}/secrets")
 
-        secret_txt = open(f"./secrets/{secret_identifier}.txt", "w")
-        secret_txt.write(
-            f'User ID = {secret["user_id"]} \nPassword = {secret["password"]}'
-        )
-        secret_txt.close()
+        with open(f"./secrets/{secret_identifier}.txt", "w") as f:
+            f.write(
+                f'User ID = {secret["user_id"]} \nPassword = {secret["password"]}'  # noqa E501
+            )
 
         logger.info(f" Secrets stored in local file {secret_identifier}.txt")
 

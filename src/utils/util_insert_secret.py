@@ -9,6 +9,19 @@ logger.setLevel(logging.INFO)
 
 
 def insert_secret(secret_identifier=None, user_id=None, password=None):
+    """
+    this function inserts a new secret into SecretsManager
+
+    Parameters
+    ----------
+        secret_identifier: user input name of the secret to insert
+        user_id: user input of the username/ id they wish to store
+        password: user input ofthe password they wish to store
+
+    Returns
+    ----------
+        returns nothing, displays terminal message if secret inserted
+    """
     try:
         client = boto3.client("secretsmanager", region_name="eu-west-2")
 

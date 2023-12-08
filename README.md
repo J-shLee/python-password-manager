@@ -1,3 +1,3 @@
-# Using Python To Access AWS
+# This Project Uses Python to access AWS SecretsManager
 
-Instructions for today's sprint can be found at: https://l2c.northcoders.com/courses/de-integration/de-password-manager
+to use this project

@@ -8,6 +8,17 @@ logger.setLevel(logging.INFO)
 
 
 def delete_secret(secret_identifier=None):
+    """
+    this function deletes a secret from SecretsManager
+
+    Parameters
+    ----------
+        secret_identifier : user input name of the secret to delete
+
+    Returns
+    ----------
+        returns nothing, displays terminal message if secret deleted
+    """
     try:
         client = boto3.client("secretsmanager", region_name="eu-west-2")
 

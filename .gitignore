@@ -14,5 +14,4 @@ serverless-output.yaml
 **/*pycache
 *coverage*
 venv/
-secret.txt
 secrets/

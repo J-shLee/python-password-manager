@@ -13,6 +13,11 @@ logger.setLevel(logging.INFO)
 
 def handler(user_input=None):
     name = get_username()
+
+    g = "\033[0;33m"
+    r = "\033[0;31m"
+    n = "\033[0m"
+
     try:
         valid_inputs = {
             "e": insert_secret,
@@ -23,7 +28,7 @@ def handler(user_input=None):
 
         if user_input is None:
             user_input = input(
-                "Please specify [e]ntry, [r]etrieval, [d]eletion, [l]isting or e[x]it: "  # noqa E501
+                f"Please specify {g}[e]{n}ntry, {g}[r]{n}etrieval, {r}[d]{n}eletion, {g}[l]{n}isting or e{r}[x]{n}it: "  # noqa E501
             ).lower()
 
         if user_input == "x":
